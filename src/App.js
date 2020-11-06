@@ -1,23 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import React, { useEffect, useState } from "react";
+import "./App.css";
+
+import axios from "./api/axios";
 
 function App() {
+  const [vms, setVms] = useState(null);
+  const getData = () => {
+    axios
+      .get("/")
+      .then((res) => {
+        console.log(res.data);
+        setVms(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const turnOnComputer = (id) => {
+    axios
+      .post("/turnOn", id)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Virtual Machines</h1>
+      {vms
+        ? vms.map((vm) => {
+            return (
+              <div onClick={() => turnOnComputer(vm.VMid)}>
+                <button>
+                  VM id -{vm.VMid}, VM Name - {vm.VM_name}
+                </button>
+                <br />
+              </div>
+            );
+          })
+        : null}
     </div>
   );
 }
