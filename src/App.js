@@ -1,6 +1,8 @@
 import logo from "./logo.svg";
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import powerButtonOffline from './assets/powerButton-red.svg'
+import powerButtonOnline from './assets/powerButton-green.svg'
 
 import axios from "./api/axios";
 
@@ -10,17 +12,22 @@ function App() {
   const [ipInput, setipInput] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [interval,setIntervalTime] = useState(null);
   const getData = () => {
     axios
       .get("/")
       .then((res) => {
-        console.log(res.data);
+        
         setVms(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  const updateStatusUI = (seconds)=>{
+    setIntervalTime(setInterval(getData,seconds*1000));
+    
+  }
   const addHost=(cred)=>{
       axios.post('/insertESXI',cred).then(res=>{console.log(res);}).catch(err=>{console.log(err);})
   }
@@ -46,9 +53,16 @@ function App() {
     
 
   }
-  const turnOnComputer = (id) => {
+
+  const clearItnterval_=()=>{
+    clearInterval(interval);
+    setIntervalTime(null);
+  }
+  const turnOnComputer = (id,status) => {
+    const vm= { id: id, currentStatus : status}
+
     axios
-      .post("/turnOn", id)
+      .post("/powerOnOff", vm)
       .then((res) => {
         console.log(res.data);
       })
@@ -58,20 +72,27 @@ function App() {
   };
 
   useEffect(() => {
-    getData();
+    updateStatusUI(3);
   }, []);
 
   return (
     <div className="App">
       <h1>Virtual Machines</h1>
       <button style={{position: 'absolute',left : '97px'}} onClick={()=>setNewHost(true)}>New Host</button>
+      {interval ? <div>
+        <h1>IntervalWorking</h1>
+      <button style={{position: 'absolute',left : '97px',top: '40px'}} onClick={()=>clearItnterval_()}>cancel interval</button>
+      </div>: <button style={{position: 'absolute',left : '97px',top: '40px'}} onClick={()=>updateStatusUI(3)}>setInterval</button>}
+      
+      
       {vms
         ? vms.map((vm) => {
             return (
-              <div onClick={() => turnOnComputer(vm.VMid)}>
+              <div onClick={() => turnOnComputer(vm.VMid,vm.vmStatus)}>
                 <button>
                   VM id -{vm.VMid}, VM Name - {vm.VM_name}
                 </button>
+                {vm.vmStatus ===0 ?<img src={powerButtonOffline} />:<img src={powerButtonOnline} />}
                 <br />
               </div>
             );
