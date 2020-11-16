@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import powerButtonOffline from "./assets/powerButton-red.svg";
 import powerButtonOnline from "./assets/powerButton-green.svg";
-
+import Tree from "./tree/Tree";
 import axios from "./api/axios";
 
 function App() {
   const [vms, setVms] = useState(null);
+  const [hosts, setHosts] = useState([]);
   const [newHost, setNewHost] = useState(null);
   const [ipInput, setipInput] = useState("");
   const [username, setUsername] = useState("");
@@ -17,7 +18,25 @@ function App() {
     axios
       .get("/")
       .then((res) => {
-        setVms(res.data);
+        const obj = { machines: [] };
+        if (res.data.length > 0) {
+          res.data.forEach((element) => {
+            if (obj.ip) {
+              if (obj.ip === element.ESXI_IP) {
+                obj.machines.push({
+                  vmName: element.VM_name,
+                  vmId: element.VMid,
+                  vmStatus: element.vmStatus,
+                });
+              }
+            } else {
+              obj.ip = element.ESXI_IP;
+            }
+
+            //,VMid,vmStatus
+          });
+          setHosts([...hosts, obj]);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -126,23 +145,18 @@ function App() {
           setInterval
         </button>
       )}
-
-      {vms
-        ? vms.map((vm) => {
-            return (
-              <div onClick={() => turnOnComputer(vm.VMid, vm.vmStatus)}>
-                <button>
-                  VM id -{vm.VMid}, VM Name - {vm.VM_name}
-                </button>
-                {vm.vmStatus === 0 ? (
-                  <img src={powerButtonOffline} />
-                ) : (
-                  <img src={powerButtonOnline} />
-                )}
-                <br />
-              </div>
-            );
-          })
+      {hosts
+        ? hosts.map((host) => (
+            <Tree
+              hostip={host.ip}
+              vms={host.machines}
+              turnOnComputer={(vmid, vmstatus) =>
+                turnOnComputer(vmid, vmstatus)
+              }
+              powerOffBtn={powerButtonOffline}
+              powerOnBtn={powerButtonOnline}
+            ></Tree>
+          ))
         : null}
       {newHost ? (
         <div
