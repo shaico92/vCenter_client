@@ -31,6 +31,11 @@ function App() {
               }
             } else {
               obj.ip = element.ESXI_IP;
+              obj.machines.push({
+                vmName: element.VM_name,
+                vmId: element.VMid,
+                vmStatus: element.vmStatus,
+              });
             }
 
             //,VMid,vmStatus
@@ -60,7 +65,6 @@ function App() {
   const validateIP = (e) => {
     const key = e.key;
 
-    console.log(key);
     if (
       (parseInt(key) !== 0 &&
         parseInt(key) !== 1 &&
@@ -90,16 +94,23 @@ function App() {
   };
   const autoComplete = (e) => {
     let currentInput = e.target.value;
-    const dotCount = charAmount(currentInput, ".", 4);
-    // if (dotCount === true) {
-    //   currentInput = currentInput + ".";
-    // }
+
     setipInput(currentInput);
   };
 
   const clearItnterval_ = () => {
     clearInterval(interval);
     setIntervalTime(null);
+  };
+  const deleteHost = (hostip) => {
+    axios
+      .post("/deleteHost", { hostip: hostip })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const turnOnComputer = (id, status) => {
     const vm = { id: id, currentStatus: status };
@@ -127,6 +138,7 @@ function App() {
       >
         New Host
       </button>
+
       {interval ? (
         <div>
           <h1>IntervalWorking</h1>
@@ -140,7 +152,7 @@ function App() {
       ) : (
         <button
           style={{ position: "absolute", left: "97px", top: "40px" }}
-          onClick={() => updateStatusUI(3)}
+          onClick={() => updateStatusUI(10)}
         >
           setInterval
         </button>
@@ -150,6 +162,7 @@ function App() {
             <Tree
               hostip={host.ip}
               vms={host.machines}
+              deleteHost={(hostip) => deleteHost(hostip)}
               turnOnComputer={(vmid, vmstatus) =>
                 turnOnComputer(vmid, vmstatus)
               }

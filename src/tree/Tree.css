@@ -1,3 +1,12 @@
 .open {
   transform: rotate(30deg);
 }
+
+.rightClickMenu {
+  position: absolute;
+  z-index: 10000;
+  border: solid 2px black;
+  background-color: blue;
+  width: fit-content;
+  cursor: pointer;
+}
