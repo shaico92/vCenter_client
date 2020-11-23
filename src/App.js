@@ -18,29 +18,13 @@ function App() {
     axios
       .get("/")
       .then((res) => {
-        const obj = { machines: [] };
         if (res.data.length > 0) {
           res.data.forEach((element) => {
-            if (obj.ip) {
-              if (obj.ip === element.ESXI_IP) {
-                obj.machines.push({
-                  vmName: element.VM_name,
-                  vmId: element.VMid,
-                  vmStatus: element.vmStatus,
-                });
-              }
-            } else {
-              obj.ip = element.ESXI_IP;
-              obj.machines.push({
-                vmName: element.VM_name,
-                vmId: element.VMid,
-                vmStatus: element.vmStatus,
-              });
-            }
-
+            const obj = element;
+            hosts.push(obj);
+            //    setHosts([...hosts, obj]);
             //,VMid,vmStatus
           });
-          setHosts([...hosts, obj]);
         }
       })
       .catch((err) => {
@@ -104,7 +88,7 @@ function App() {
   };
   const deleteHost = (hostip) => {
     axios
-      .post("/deleteHost", { hostip: hostip })
+      .delete("/deleteHost", hostip)
       .then((res) => {
         console.log(res);
       })
@@ -126,7 +110,7 @@ function App() {
   };
 
   useEffect(() => {
-    updateStatusUI(3);
+    updateStatusUI(60);
   }, []);
 
   return (
@@ -158,18 +142,21 @@ function App() {
         </button>
       )}
       {hosts
-        ? hosts.map((host) => (
-            <Tree
-              hostip={host.ip}
-              vms={host.machines}
-              deleteHost={(hostip) => deleteHost(hostip)}
-              turnOnComputer={(vmid, vmstatus) =>
-                turnOnComputer(vmid, vmstatus)
-              }
-              powerOffBtn={powerButtonOffline}
-              powerOnBtn={powerButtonOnline}
-            ></Tree>
-          ))
+        ? hosts.map((host) => {
+            console.log(hosts);
+            return (
+              <Tree
+                hostip={host.ip}
+                vms={host.vms}
+                deleteHost={(hostip) => deleteHost(hostip)}
+                turnOnComputer={(vmid, vmstatus) =>
+                  turnOnComputer(vmid, vmstatus)
+                }
+                powerOffBtn={powerButtonOffline}
+                powerOnBtn={powerButtonOnline}
+              ></Tree>
+            );
+          })
         : null}
       {newHost ? (
         <div
