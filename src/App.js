@@ -1,39 +1,48 @@
-import logo from "./logo.svg";
+//import logo from "./logo.svg";
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import powerButtonOffline from "./assets/powerButton-red.svg";
 import powerButtonOnline from "./assets/powerButton-green.svg";
 import Tree from "./tree/Tree";
+import Bin from './bin/Bin'
 import axios from "./api/axios";
 
 function App() {
-  const [vms, setVms] = useState(null);
+  
   const [hosts, setHosts] = useState([]);
   const [newHost, setNewHost] = useState(null);
   const [ipInput, setipInput] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [interval, setIntervalTime] = useState(null);
+  
   const getData = () => {
     axios
       .get("/")
       .then((res) => {
-        if (res.data.length > 0) {
+        console.log(res.data.length);
+        console.log(hosts.length);
+        if ((res.data.length > 0) &&(res.data.length>hosts.length)) {
+          const tempArr = [];
+          
           res.data.forEach((element) => {
+            
             const obj = element;
-            hosts.push(obj);
-            //    setHosts([...hosts, obj]);
-            //,VMid,vmStatus
+            tempArr.push(obj)
+            //hosts.push(obj);
+          
+            
           });
+          setHosts(tempArr)
+          console.log('now should show tree');
+        }else{
+            
         }
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  const updateStatusUI = (seconds) => {
-    setIntervalTime(setInterval(getData, seconds * 1000));
-  };
+  
   const addHost = (cred) => {
     setNewHost(null);
     axios
@@ -64,31 +73,19 @@ function App() {
     ) {
     }
   };
-  const charAmount = (string, char, amount) => {
-    let charCount = 0;
-    for (let index = 0; index < string.length; index++) {
-      const element = string[index];
-      if (element === char && charCount < amount) {
-        charCount = charCount + 1;
-        return true;
-      } else {
-        return false;
-      }
-    }
-  };
+  
   const autoComplete = (e) => {
     let currentInput = e.target.value;
 
     setipInput(currentInput);
   };
 
-  const clearItnterval_ = () => {
-    clearInterval(interval);
-    setIntervalTime(null);
-  };
+  
   const deleteHost = (hostip) => {
+    
+    
     axios
-      .delete("/deleteHost", hostip)
+      .post("/deleteHost", hostip)
       .then((res) => {
         console.log(res);
       })
@@ -110,8 +107,9 @@ function App() {
   };
 
   useEffect(() => {
-    updateStatusUI(60);
-  }, []);
+    getData();
+    
+  });
 
   return (
     <div className="App">
@@ -122,33 +120,16 @@ function App() {
       >
         New Host
       </button>
-
-      {interval ? (
-        <div>
-          <h1>IntervalWorking</h1>
-          <button
-            style={{ position: "absolute", left: "97px", top: "40px" }}
-            onClick={() => clearItnterval_()}
-          >
-            cancel interval
-          </button>
-        </div>
-      ) : (
-        <button
-          style={{ position: "absolute", left: "97px", top: "40px" }}
-          onClick={() => updateStatusUI(10)}
-        >
-          setInterval
-        </button>
-      )}
-      {hosts
+      {hosts.length>0
         ? hosts.map((host) => {
-            console.log(hosts);
+            console.log(host);
             return (
               <Tree
+                key = {hosts.indexOf(host)+1}
                 hostip={host.ip}
                 vms={host.vms}
-                deleteHost={(hostip) => deleteHost(hostip)}
+
+                removeHost={(hostip) => deleteHost(hostip)}
                 turnOnComputer={(vmid, vmstatus) =>
                   turnOnComputer(vmid, vmstatus)
                 }
@@ -198,6 +179,7 @@ function App() {
           </button>
         </div>
       ) : null}
+      <Bin throwTrash={data=>deleteHost({ip:data})}/>
     </div>
   );
 }

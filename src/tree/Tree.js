@@ -4,17 +4,20 @@ import Arrow from "../assets/iconmonstr-arrow.svg";
 
 const Tree = ({
   children,
-  deleteHost,
+  removeHost,
   vms,
   turnOnComputer,
   powerOffBtn,
+  
   powerOnBtn,
   hostip,
 }) => {
   const [open, setOpen] = useState(null);
   const [rightClickOptionOpen, setRightClickOptionOpen] = useState(null);
   const arrow = useRef();
-  useEffect(() => {}, [vms]);
+  useEffect(() => {
+    
+  },[vms]);
 
   const openClose = () => {
     if (open) {
@@ -29,15 +32,22 @@ const Tree = ({
     setRightClickOptionOpen(true);
     console.log(arrow);
   };
-
+  const onDragHandlerStart=(event,hostip)=>{
+    event.dataTransfer.setData("TrashBin",event.target.id);
+    
+  }
+  const onDragHandlerEnd=(event,hostip)=>{
+    event.preventDefault();
+    
+  }
   return (
-    <div>
-      {open ? (
+    <div id={hostip} draggable={true} onDragEnd={(event)=>onDragHandlerEnd(event,hostip)} onDragStart={event=>onDragHandlerStart(event,hostip)} >
+      {open &&hostip ? (
         <div>
           <img
             ref={arrow}
             onClick={() => openClose()}
-            onContextMenu={rightClick}
+            onContextMenu={rightClick()}
             className="open"
             src={Arrow}
             alt=""
@@ -45,7 +55,7 @@ const Tree = ({
           host ip - {hostip}
           {rightClickOptionOpen ? (
             <button
-              onClick={deleteHost(hostip)}
+              onClick={()=>removeHost(hostip)}
               className="rightClickMenu"
               style={{
                 left: arrow.current.offsetLeft + 7,
