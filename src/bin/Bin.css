@@ -4,6 +4,20 @@
   top: 31%;
 }
 .large {
+  
   width: 60px;
-  size: 60px;
+  height: 60px;
+  animation-name: example;
+  animation-duration: 0.5s;
 }
+
+/* The animation code */
+@keyframes example {
+    from {height: 40px;}
+    to {height: 60px;}
+    from {width: 40px;}
+    to {width: 60px;}
+  }
+  
+  /* The element to apply the animation to */
+  

@@ -37,9 +37,11 @@ const Tree = ({
     
   }
   const onDragHandlerEnd=(event,hostip)=>{
+    dragEnd();
+    
     event.preventDefault();
     console.log('ending drag');
-    dragEnd();
+    
     
   }
   return (

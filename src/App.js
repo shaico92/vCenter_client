@@ -14,7 +14,7 @@ function App() {
   const [ipInput, setipInput] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [cancelDrag,setCancelDrag]=useState(true);
+  const [cancelDrag,setCancelDrag]=useState(null);
   
   const getData = () => {
     axios
@@ -89,6 +89,17 @@ function App() {
       .post("/deleteHost", hostip)
       .then((res) => {
         console.log(res);
+        const arr = [];
+        hosts.map(host=>{
+          console.log(host);
+          if (host.ip===res.data) {
+            
+          }else{
+            arr.push(host);
+          }
+        })
+        setHosts(arr);
+
       })
       .catch((err) => {
         console.log(err);
@@ -110,7 +121,7 @@ function App() {
   useEffect(() => {
     getData();
     
-  });
+  },[hosts]);
 
   return (
     <div className="App">
@@ -129,7 +140,7 @@ function App() {
                 key = {hosts.indexOf(host)+1}
                 hostip={host.ip}
                 vms={host.vms}
-                dragEnd={()=>setCancelDrag(false)}
+                dragEnd={()=>setCancelDrag(!cancelDrag)}
                 removeHost={(hostip) => deleteHost(hostip)}
                 turnOnComputer={(vmid, vmstatus) =>
                   turnOnComputer(vmid, vmstatus)
@@ -180,12 +191,15 @@ function App() {
           </button>
         </div>
       ) : null}
-      {cancelDrag?
-        <Bin  throwTrash={data=>deleteHost({ip:data})}/>:
-        <Bin cancelDragBin throwTrash={data=>deleteHost({ip:data})}/>
+      {
+        
+        <Bin removeDrag={cancelDrag} throwTrash={data=>deleteHost({ip:data})}/>
 
 
-      }    </div>
+
+      }
+
+          </div>
   );
 }
 

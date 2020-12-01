@@ -2,11 +2,11 @@ import React,{ useEffect, useState} from 'react';
 import "./Bin.css";
 import TrashBin from "../assets/bin.svg";
 
-const Bin =({throwTrash,cancelDragBin})=>{
+const Bin =({throwTrash,removeDrag})=>{
     const [aboutToThrow,setAboutToThrow] = useState(null);
     useEffect(()=>{
-            console.log(cancelDragBin);
-    },[cancelDragBin])
+            setAboutToThrow(null)
+    },[removeDrag])
 
     
 
@@ -15,24 +15,40 @@ const Bin =({throwTrash,cancelDragBin})=>{
         event.preventDefault();
         
     const data=event.dataTransfer.getData("TrashBin");
-        
-            setAboutToThrow(null);
+    
+    setAboutToThrow(null);
+            
+    
+            
+            
         
             throwTrash(data);
-            console.log('dropped');
+    
+            console.log(`putting ${data} in trash `);
+        
         
         
     }
     const allowDropHandler=(event)=>{
-        console.log('dragging on bin');
+         
         event.preventDefault();
-        setAboutToThrow(true);        
+        
+        
+        
+        console.log("on trash bin");
+        
+            
+        
+        
+        
+        
+         setAboutToThrow(1)
         
     }
 
     return(
-        <div className={"Bin"}   onDragOver={(event)=>allowDropHandler(event)} onDrop={(event)=>onDropHandler(event)}>
-            {cancelDragBin ?<img className={"large"}  src={TrashBin}/>:<img className={"normal"}  src={TrashBin}/>}
+        <div className={"Bin"} onDragLeave={()=>setAboutToThrow(null)}  onDragOver={(event)=>allowDropHandler(event)} onDrop={(event)=>onDropHandler(event)}>
+            {aboutToThrow ?<img className={"large"}  src={TrashBin}/>:<img className={"normal"}  src={TrashBin}/>}
         </div>
     )
 
