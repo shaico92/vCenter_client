@@ -8,7 +8,7 @@ const Tree = ({
   vms,
   turnOnComputer,
   powerOffBtn,
-  
+  dragEnd,
   powerOnBtn,
   hostip,
 }) => {
@@ -38,6 +38,8 @@ const Tree = ({
   }
   const onDragHandlerEnd=(event,hostip)=>{
     event.preventDefault();
+    console.log('ending drag');
+    dragEnd();
     
   }
   return (
@@ -47,7 +49,7 @@ const Tree = ({
           <img
             ref={arrow}
             onClick={() => openClose()}
-            onContextMenu={rightClick()}
+            
             className="open"
             src={Arrow}
             alt=""

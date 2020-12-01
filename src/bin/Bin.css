@@ -1,6 +1,9 @@
-.Bin{
-    position: absolute;
-    left: 7%;
-    top: 31%;
-
+.Bin {
+  position: absolute;
+  left: 7%;
+  top: 31%;
+}
+.large {
+  width: 60px;
+  size: 60px;
 }

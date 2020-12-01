@@ -14,6 +14,7 @@ function App() {
   const [ipInput, setipInput] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [cancelDrag,setCancelDrag]=useState(true);
   
   const getData = () => {
     axios
@@ -128,7 +129,7 @@ function App() {
                 key = {hosts.indexOf(host)+1}
                 hostip={host.ip}
                 vms={host.vms}
-
+                dragEnd={()=>setCancelDrag(false)}
                 removeHost={(hostip) => deleteHost(hostip)}
                 turnOnComputer={(vmid, vmstatus) =>
                   turnOnComputer(vmid, vmstatus)
@@ -179,8 +180,12 @@ function App() {
           </button>
         </div>
       ) : null}
-      <Bin throwTrash={data=>deleteHost({ip:data})}/>
-    </div>
+      {cancelDrag?
+        <Bin  throwTrash={data=>deleteHost({ip:data})}/>:
+        <Bin cancelDragBin throwTrash={data=>deleteHost({ip:data})}/>
+
+
+      }    </div>
   );
 }
 
