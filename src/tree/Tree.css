@@ -10,3 +10,16 @@
   width: fit-content;
   cursor: pointer;
 }
+.tree {
+  width: fit-content;
+  margin-left: 45%;
+  margin-top: 2%;
+}
+img {
+  width: 11px;
+  height: 11px;
+}
+
+.treeGone {
+  opacity: 1;
+}

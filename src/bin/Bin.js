@@ -47,8 +47,8 @@ const Bin =({throwTrash,removeDrag})=>{
     }
 
     return(
-        <div className={"Bin"} onDragLeave={()=>setAboutToThrow(null)}  onDragOver={(event)=>allowDropHandler(event)} onDrop={(event)=>onDropHandler(event)}>
-            {aboutToThrow ?<img className={"large"}  src={TrashBin}/>:<img className={"normal"}  src={TrashBin}/>}
+        <div className={"Bin"}  onDragLeave={()=>setAboutToThrow(null)}  onDragOver={(event)=>allowDropHandler(event)} onDrop={(event)=>onDropHandler(event)}>
+            {aboutToThrow ?<img draggable={false} className={"large"} alt="#"  src={TrashBin}/>:<img className={"normal"} draggable={false} src={TrashBin} alt="#"/>}
         </div>
     )
 

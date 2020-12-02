@@ -13,11 +13,13 @@ const Tree = ({
   hostip,
 }) => {
   const [open, setOpen] = useState(null);
+  const [drag, setDrag] = useState("");
   const [rightClickOptionOpen, setRightClickOptionOpen] = useState(null);
+  
   const arrow = useRef();
   useEffect(() => {
     
-  },[vms]);
+  },[vms,drag]);
 
   const openClose = () => {
     if (open) {
@@ -33,22 +35,25 @@ const Tree = ({
     console.log(arrow);
   };
   const onDragHandlerStart=(event,hostip)=>{
+    setDrag("Gone")
     event.dataTransfer.setData("TrashBin",event.target.id);
     
   }
   const onDragHandlerEnd=(event,hostip)=>{
-    dragEnd();
-    
     event.preventDefault();
+    dragEnd();
+    setDrag("")
+    
+    
     console.log('ending drag');
     
     
   }
   return (
-    <div id={hostip} draggable={true} onDragEnd={(event)=>onDragHandlerEnd(event,hostip)} onDragStart={event=>onDragHandlerStart(event,hostip)} >
+    <div className={`tree${drag}`} id={hostip} draggable={true} onDragEnd={(event)=>onDragHandlerEnd(event,hostip)} onDragStart={event=>onDragHandlerStart(event,hostip)} >
       {open &&hostip ? (
         <div>
-          <img
+          <img 
             ref={arrow}
             onClick={() => openClose()}
             
@@ -80,9 +85,9 @@ const Tree = ({
                       VM id -{vm.vmId}, VM Name - {vm.vmName}
                     </button>
                     {vm.vmStatus === 0 ? (
-                      <img src={powerOffBtn} />
+                      <img src={powerOffBtn} alt="#" />
                     ) : (
-                      <img src={powerOnBtn} />
+                      <img src={powerOnBtn}  alt="#"/>
                     )}
                     <br />
                   </div>
