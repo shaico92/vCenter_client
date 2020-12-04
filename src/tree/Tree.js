@@ -12,6 +12,7 @@ const Tree = ({
   powerOnBtn,
   hostip,
 }) => {
+  const tree= useRef();
   const [open, setOpen] = useState(null);
   const [drag, setDrag] = useState("");
   const [rightClickOptionOpen, setRightClickOptionOpen] = useState(null);
@@ -35,12 +36,26 @@ const Tree = ({
     console.log(arrow);
   };
   const onDragHandlerStart=(event,hostip)=>{
-    setDrag("Gone")
-    event.dataTransfer.setData("TrashBin",event.target.id);
     
+    let elm =  document.createElement("div");
+    elm=tree.current;
+    elm.style.fillOpacity=1;
+    
+
+    
+    
+    
+    
+    
+    //event.dataTransfer.setDragImage(event.target.id,0,0)
+    event.dataTransfer.setData("TrashBin",event.target.id);
+      
+    setTimeout(()=>{setDrag(" Gone")},0);
   }
   const onDragHandlerEnd=(event,hostip)=>{
     event.preventDefault();
+    tree.current.className="";
+    event.target=tree.current
     dragEnd();
     setDrag("")
     
@@ -50,18 +65,20 @@ const Tree = ({
     
   }
   return (
-    <div className={`tree${drag}`} id={hostip} draggable={true} onDragEnd={(event)=>onDragHandlerEnd(event,hostip)} onDragStart={event=>onDragHandlerStart(event,hostip)} >
+    <div ref={tree}  className="main" id={hostip} draggable={true} onDragEnd={(event)=>onDragHandlerEnd(event,hostip)} onDragStart={event=>onDragHandlerStart(event,hostip)}>
       {open &&hostip ? (
-        <div>
+        <div  className={`tree${drag}`}> 
+          <div className="host_arrow">
           <img 
             ref={arrow}
             onClick={() => openClose()}
             
-            className="open"
+            className="arrow open"
             src={Arrow}
             alt=""
           />
           host ip - {hostip}
+            </div>
           {rightClickOptionOpen ? (
             <button
               onClick={()=>removeHost(hostip)}
@@ -74,10 +91,12 @@ const Tree = ({
               Delete Host
             </button>
           ) : null}
+          <div className="vmList">
+            
           {vms
             ? vms.map((vm) => {
                 return (
-                  <div
+                  <div className="vm"
                     key={`${hostip}-${vm.vmId}`}
                     onClick={() => turnOnComputer(vm.vmId, vm.vmStatus)}
                   >
@@ -85,20 +104,23 @@ const Tree = ({
                       VM id -{vm.vmId}, VM Name - {vm.vmName}
                     </button>
                     {vm.vmStatus === 0 ? (
-                      <img src={powerOffBtn} alt="#" />
+                      <img className={"powerBtn"} src={powerOffBtn} alt="#" />
                     ) : (
-                      <img src={powerOnBtn}  alt="#"/>
+                      <img className={"powerBtn"} src={powerOnBtn}  alt="#"/>
                     )}
                     <br />
                   </div>
                 );
               })
             : null}
+          </div>
           {children}
         </div>
       ) : (
-        <div>
-          <img
+        <div  className={`tree${drag}`}>
+          
+          <div className="host_arrow">
+          <img className="arrow"
             onClick={() => openClose()}
             onContextMenu={rightClick}
             src={Arrow}
@@ -106,6 +128,10 @@ const Tree = ({
             alt=""
           />
           host ip - {hostip}
+            </div>
+
+
+          
           {rightClickOptionOpen ? (
             <button
               className="rightClickMenu"

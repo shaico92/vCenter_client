@@ -1,10 +1,12 @@
 //import logo from "./logo.svg";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import powerButtonOffline from "./assets/powerButton-red.svg";
 import powerButtonOnline from "./assets/powerButton-green.svg";
+import Xbutton from './assets/xBtn.svg'
 import Tree from "./tree/Tree";
 import Bin from './bin/Bin'
+
 import axios from "./api/axios";
 
 function App() {
@@ -15,13 +17,13 @@ function App() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [cancelDrag,setCancelDrag]=useState(null);
-  
+  const newHostBtn = useRef();
   const getData = () => {
     axios
       .get("/")
       .then((res) => {
-        console.log(res.data.length);
-        console.log(hosts.length);
+
+
         if ((res.data.length > 0) &&(res.data.length>hosts.length)) {
           const tempArr = [];
           
@@ -34,7 +36,7 @@ function App() {
             
           });
           setHosts(tempArr)
-          console.log('now should show tree');
+
         }else{
             
         }
@@ -90,7 +92,7 @@ function App() {
       .then((res) => {
         console.log(res);
         const arr = [];
-        hosts.map(host=>{
+        hosts.forEach(host=>{
           console.log(host);
           if (host.ip===res.data) {
             
@@ -126,15 +128,23 @@ function App() {
   return (
     <div className="App">
       <h1>Virtual Machines</h1>
-      <button
+      <button ref={newHostBtn}
         style={{ position: "absolute", left: "97px" }}
-        onClick={() => setNewHost(true)}
+        onClick={(event) => {
+          
+          
+          event.target.className="invisible"
+          
+          setNewHost(true)
+        }}
       >
         New Host
       </button>
-      {hosts.length>0
+     <div className="treeContainer">
+ 
+     {hosts.length>0
         ? hosts.map((host) => {
-            console.log(host);
+
             return (
               <Tree
                 key = {hosts.indexOf(host)+1}
@@ -151,15 +161,15 @@ function App() {
             );
           })
         : null}
+     </div>
+
       {newHost ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "30%",
-            margin: "13% 35%",
-          }}
-        >
+        <div className="newHostForm">
+          <img onClick={()=>{
+            
+            newHostBtn.current.className=""
+            setNewHost(null)}
+            } className="Xbtn" src={Xbutton} alt="#"/>
           <input
             value={ipInput}
             onChange={(e) => autoComplete(e)}

@@ -11,15 +11,43 @@
   cursor: pointer;
 }
 .tree {
-  width: fit-content;
-  margin-left: 45%;
+  
+  
   margin-top: 2%;
 }
-img {
-  width: 11px;
-  height: 11px;
+.host_arrow{
+  
+}
+.arrow{
+  width: 13px;
+  height: 12px;
 }
 
-.treeGone {
-  opacity: 1;
+.powerBtn{
+  width: 18px;
+  height: 20px;
+  padding-left: 5px;
+}
+
+.Gone {
+  display: none;
+}
+.main{
+  
+  
+  
+}
+.vm{
+
+  padding-top: 10px;
+  
+  display: flex;
+  flex-flow: row;
+}
+.vmList{
+  margin-left: 45%;
+}
+
+.alph{
+  opa: 1;
 }

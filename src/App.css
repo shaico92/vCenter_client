@@ -12,7 +12,26 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.treeContainer{
+  display: flex;
+  flex-flow: column;
+}
+.newHostForm{
+  position: absolute;
+display: flex;
+flex-direction: column;
+width: 30%;
+top: 42%;
 
+border: black solid 2px
+;
+}
+
+.Xbtn{
+  
+  padding-left: 94%;
+  cursor: pointer;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -26,6 +45,11 @@
 html {
   height: 100%;
 }
+.invisible{
+  
+
+  display: none;
+}
 .App-link {
   color: #61dafb;
 }
@@ -37,4 +61,14 @@ html {
   to {
     transform: rotate(360deg);
   }
+}
+
+@keyframes disappear {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+  
 }
