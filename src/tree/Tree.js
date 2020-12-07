@@ -37,27 +37,31 @@ const Tree = ({
   };
   const onDragHandlerStart=(event,hostip)=>{
     
-    let elm =  document.createElement("div");
-    elm=tree.current;
-    elm.style.fillOpacity=1;
+    
+    
+
+    const style = {
+      color :  "red"
+    }
+    
+  
+    
+    
+    event.target.style=style
+    event.dataTransfer.setData("TrashBin",event.target.id);
+    
+    setTimeout(()=>{setDrag(" Gone")},0);
     
 
     
     
-    
-    
-    
-    //event.dataTransfer.setDragImage(event.target.id,0,0)
-    event.dataTransfer.setData("TrashBin",event.target.id);
-      
-    setTimeout(()=>{setDrag(" Gone")},0);
   }
   const onDragHandlerEnd=(event,hostip)=>{
     event.preventDefault();
-    tree.current.className="";
-    event.target=tree.current
+    event.target.style.fillOpacity=0;
     dragEnd();
     setDrag("")
+   
     
     
     console.log('ending drag');
@@ -65,9 +69,9 @@ const Tree = ({
     
   }
   return (
-    <div ref={tree}  className="main" id={hostip} draggable={true} onDragEnd={(event)=>onDragHandlerEnd(event,hostip)} onDragStart={event=>onDragHandlerStart(event,hostip)}>
+    <div  ref={tree} className="main" id={hostip} draggable={true} onDragEnd={(event)=>onDragHandlerEnd(event,hostip)} onDragStart={event=>onDragHandlerStart(event,hostip)}>
       {open &&hostip ? (
-        <div  className={`tree${drag}`}> 
+        <div   className={`tree${drag}`}> 
           <div className="host_arrow">
           <img 
             ref={arrow}
@@ -117,7 +121,7 @@ const Tree = ({
           {children}
         </div>
       ) : (
-        <div  className={`tree${drag}`}>
+        <div   className={`tree${drag}`}>
           
           <div className="host_arrow">
           <img className="arrow"

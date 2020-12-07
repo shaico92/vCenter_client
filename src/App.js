@@ -6,7 +6,8 @@ import powerButtonOnline from "./assets/powerButton-green.svg";
 import Xbutton from './assets/xBtn.svg'
 import Tree from "./tree/Tree";
 import Bin from './bin/Bin'
-
+import EnableSSH from './sshEnableForm/sshEnableForm'
+import Spinner from './Spinner/Spinner'
 import axios from "./api/axios";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [cancelDrag,setCancelDrag]=useState(null);
+  const [WaitServer,setWaitServer]=useState(null);
   const newHostBtn = useRef();
   const getData = () => {
     axios
@@ -107,6 +109,23 @@ function App() {
         console.log(err);
       });
   };
+
+  
+  const enableSSHSelenium=(value)=>{
+    console.log(value);
+    const obj = {user : value.username,pass: value.pass}
+    setWaitServer(true);
+    axios
+    .post(`/checkSSH/${value.ip}`,obj)
+    .then(res=>{if (res) {
+      console.log(res.data);
+      setWaitServer(null)
+    }})
+    .catch(err=>{
+      setWaitServer(null)
+      console.log(err);})
+  }
+
   const turnOnComputer = (id, status) => {
     const vm = { id: id, currentStatus: status };
 
@@ -200,6 +219,7 @@ function App() {
             add Host
           </button>
         </div>
+        
       ) : null}
       {
         
@@ -208,7 +228,8 @@ function App() {
 
 
       }
-
+      <Spinner load={WaitServer}>Please Wait while operation is performed</Spinner>
+<EnableSSH enableSSH={(value)=>enableSSHSelenium(value)}/>
           </div>
   );
 }

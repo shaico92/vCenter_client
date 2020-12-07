@@ -12,7 +12,7 @@
 }
 .tree {
   
-  
+  opacity: 1;
   margin-top: 2%;
 }
 .host_arrow{
@@ -30,13 +30,12 @@
 }
 
 .Gone {
+  opacity: inherit;
   display: none;
-}
-.main{
-  
   
   
 }
+
 .vm{
 
   padding-top: 10px;
@@ -48,6 +47,11 @@
   margin-left: 45%;
 }
 
-.alph{
-  opa: 1;
+.tree:-webkit-drag {
+  
+  opacity: 1;
 }
+
+
+
+
