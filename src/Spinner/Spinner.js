@@ -19,6 +19,7 @@ const Spinner =<div>
         <div   className="text">
         {children}
         </div>
+        
 </div>
 
 return (

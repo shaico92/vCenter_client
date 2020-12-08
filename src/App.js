@@ -3,11 +3,13 @@ import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import powerButtonOffline from "./assets/powerButton-red.svg";
 import powerButtonOnline from "./assets/powerButton-green.svg";
-import Xbutton from './assets/xBtn.svg'
+
+import Xbutton from './assets/Xbtn'
 import Tree from "./tree/Tree";
 import Bin from './bin/Bin'
 import EnableSSH from './sshEnableForm/sshEnableForm'
 import Spinner from './Spinner/Spinner'
+import ErrorMsg from './ErrorMsg/ErrorMsg'
 import axios from "./api/axios";
 
 function App() {
@@ -19,13 +21,15 @@ function App() {
   const [password, setPassword] = useState("");
   const [cancelDrag,setCancelDrag]=useState(null);
   const [WaitServer,setWaitServer]=useState(null);
+  const [Error, setError] = useState(null);
   const newHostBtn = useRef();
   const getData = () => {
+    setWaitServer(true);
     axios
       .get("/")
       .then((res) => {
 
-
+        
         if ((res.data.length > 0) &&(res.data.length>hosts.length)) {
           const tempArr = [];
           
@@ -38,25 +42,32 @@ function App() {
             
           });
           setHosts(tempArr)
-
+          
         }else{
             
         }
+        setWaitServer(null);
       })
       .catch((err) => {
         console.log(err);
+        setWaitServer(null);
+        setError(err.response.data.message);
       });
   };
   
   const addHost = (cred) => {
     setNewHost(null);
+    setWaitServer(true);
     axios
       .post("/insertESXI", cred)
       .then((res) => {
         console.log(res);
+        setWaitServer(null);
       })
       .catch((err) => {
         console.log(err);
+        setWaitServer(null);
+        setError(err.response.data.message);
       });
   };
 
@@ -112,7 +123,7 @@ function App() {
 
   
   const enableSSHSelenium=(value)=>{
-    console.log(value);
+
     const obj = {user : value.username,pass: value.pass}
     setWaitServer(true);
     axios
@@ -123,7 +134,10 @@ function App() {
     }})
     .catch(err=>{
       setWaitServer(null)
-      console.log(err);})
+      setError(err.response.data.message);
+      
+    }
+      )
   }
 
   const turnOnComputer = (id, status) => {
@@ -184,11 +198,14 @@ function App() {
 
       {newHost ? (
         <div className="newHostForm">
-          <img onClick={()=>{
+         
+            <div className="Xbtn" onClick={()=>{
             
             newHostBtn.current.className=""
             setNewHost(null)}
-            } className="Xbtn" src={Xbutton} alt="#"/>
+            } >
+            <Xbutton  />
+            </div>
           <input
             value={ipInput}
             onChange={(e) => autoComplete(e)}
@@ -228,8 +245,10 @@ function App() {
 
 
       }
-      <Spinner load={WaitServer}>Please Wait while operation is performed</Spinner>
+      <Spinner  load={WaitServer}>Please Wait while operation is performed</Spinner>
+      
 <EnableSSH enableSSH={(value)=>enableSSHSelenium(value)}/>
+{Error?<ErrorMsg closeError={()=>setError(null)} msg={Error}/>:null}
           </div>
   );
 }

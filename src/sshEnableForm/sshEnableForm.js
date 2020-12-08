@@ -13,7 +13,7 @@ const EnableSSH = ({enableSSH})=>{
     }, [open]);
 
 const closeOpenForm=()=>{
-    console.log('clicked on maindiv');
+
     if (!open||open===false) {
         setopen(true);
     } else {
@@ -41,7 +41,7 @@ const form = <div className="sshForm">
             type="password"
             
           ></input>
-          <button
+          <button className="enableFormBtn"
             onClick={()=>enableSSH({ip: IP,username: Username,pass : Password})}
           >
             EnableSSH
@@ -50,8 +50,8 @@ const form = <div className="sshForm">
 </div>;
 
     return (
-        <div className="enableFormBtn">
-            <div onClick={closeOpenForm}>enable ssh</div>
+        <div >
+            <div className="enableFormBtn" onClick={closeOpenForm}>enable ssh</div>
             {open&&open===true ? 
             form:
             null}
