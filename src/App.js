@@ -9,20 +9,21 @@ import Tree from "./tree/Tree";
 import Bin from './bin/Bin'
 import EnableSSH from './sshEnableForm/sshEnableForm'
 import Spinner from './Spinner/Spinner'
+import NewHostForm from './NewHost/NewHost'
 import ErrorMsg from './ErrorMsg/ErrorMsg'
 import axios from "./api/axios";
 
 function App() {
   
   const [hosts, setHosts] = useState([]);
-  const [newHost, setNewHost] = useState(null);
-  const [ipInput, setipInput] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  // const [newHost, setNewHost] = useState(null);
+  // const [ipInput, setipInput] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
   const [cancelDrag,setCancelDrag]=useState(null);
   const [WaitServer,setWaitServer]=useState(null);
   const [Error, setError] = useState(null);
-  const newHostBtn = useRef();
+  // const newHostBtn = useRef();
   const getData = () => {
     setWaitServer(true);
     axios
@@ -56,7 +57,7 @@ function App() {
   };
   
   const addHost = (cred) => {
-    setNewHost(null);
+    
     setWaitServer(true);
     axios
       .post("/insertESXI", cred)
@@ -71,31 +72,7 @@ function App() {
       });
   };
 
-  const validateIP = (e) => {
-    const key = e.key;
-
-    if (
-      (parseInt(key) !== 0 &&
-        parseInt(key) !== 1 &&
-        parseInt(key) !== 2 &&
-        parseInt(key) !== 3 &&
-        parseInt(key) !== 4 &&
-        parseInt(key) !== 5 &&
-        parseInt(key) !== 6 &&
-        parseInt(key) !== 7 &&
-        parseInt(key) !== 8 &&
-        parseInt(key) !== 9) ||
-      parseInt(e.target.value.length) === 15
-    ) {
-    }
-  };
   
-  const autoComplete = (e) => {
-    let currentInput = e.target.value;
-
-    setipInput(currentInput);
-  };
-
   
   const deleteHost = (hostip) => {
     
@@ -161,18 +138,8 @@ function App() {
   return (
     <div className="App">
       <h1>Virtual Machines</h1>
-      <button ref={newHostBtn}
-        style={{ position: "absolute", left: "97px" }}
-        onClick={(event) => {
-          
-          
-          event.target.className="invisible"
-          
-          setNewHost(true)
-        }}
-      >
-        New Host
-      </button>
+      <NewHostForm addHost={data=>addHost(data)}/>
+      
      <div className="treeContainer">
  
      {hosts.length>0
@@ -196,48 +163,6 @@ function App() {
         : null}
      </div>
 
-      {newHost ? (
-        <div className="newHostForm">
-         
-            <div className="Xbtn" onClick={()=>{
-            
-            newHostBtn.current.className=""
-            setNewHost(null)}
-            } >
-            <Xbutton  />
-            </div>
-          <input
-            value={ipInput}
-            onChange={(e) => autoComplete(e)}
-            onKeyPress={(e) => validateIP(e)}
-            type="text"
-            max="15"
-            placeholder="Please enter ip"
-          ></input>
-          <input
-            type="text"
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Please enter user"
-          ></input>
-          <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Please enter Password"
-          ></input>
-          <button
-            onClick={() =>
-              addHost({
-                ESXI_IP: ipInput,
-                ESXI_USER: username,
-                ESXI_PASSWORD: password,
-              })
-            }
-          >
-            add Host
-          </button>
-        </div>
-        
-      ) : null}
       {
         
         <Bin removeDrag={cancelDrag} throwTrash={data=>deleteHost({ip:data})}/>

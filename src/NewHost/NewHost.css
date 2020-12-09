@@ -1,0 +1,16 @@
+.invisible{
+  
+
+    display: none;
+  }
+
+  .newHostForm{
+    position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  top: 42%;
+  
+  border: black solid 2px
+  ;
+  }
