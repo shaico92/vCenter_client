@@ -129,8 +129,8 @@ function App() {
       )
   }
 
-  const turnOnComputer = (id, status) => {
-    const vm = { id: id, currentStatus: status };
+  const turnOnComputer = (hostIP,vmName,id, status) => {
+    const vm = {hostIP:hostIP ,vmName:vmName,id: id, currentStatus: status };
 
     axios
       .post("/powerOnOff", vm)
@@ -164,8 +164,8 @@ function App() {
                 vms={host.vms}
                 dragEnd={()=>setCancelDrag(cancelDrag)}
                 removeHost={(hostip) => deleteHost(hostip)}
-                turnOnComputer={(vmid, vmstatus) =>
-                  turnOnComputer(vmid, vmstatus)
+                turnOnComputer={(vmName,vmid, vmstatus) =>
+                  turnOnComputer(host.ip,vmName, vmid, vmstatus)
                 }
                 powerOffBtn={powerButtonOffline}
                 powerOnBtn={powerButtonOnline}

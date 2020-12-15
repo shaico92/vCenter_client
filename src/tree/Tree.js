@@ -100,7 +100,7 @@ const Tree = ({
                 return (
                   <div className="vm"
                     key={`${hostip}-${vm.vmId}`}
-                    onClick={() => turnOnComputer(vm.vmId, vm.vmStatus)}
+                    onClick={() => turnOnComputer(vm.vmName,vm.vmId, vm.vmStatus)}
                   >
                     <button>
                       VM id -{vm.vmId}, VM Name - {vm.vmName}
