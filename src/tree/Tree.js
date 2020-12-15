@@ -20,7 +20,7 @@ const Tree = ({
   const arrow = useRef();
   useEffect(() => {
     
-  },[vms,drag]);
+  },[vms]);
 
   const openClose = () => {
     if (open) {
@@ -40,28 +40,26 @@ const Tree = ({
     
     
 
-    const style = {
-      color :  "red"
-    }
     
   
+    console.log("stating drag");
     
-    
-    event.target.style=style
+
     event.dataTransfer.setData("TrashBin",event.target.id);
     
-    setTimeout(()=>{setDrag(" Gone")},0);
+    setTimeout(()=>{
+      event.target.className="Gone"
+    },0);
     
 
     
     
   }
   const onDragHandlerEnd=(event,hostip)=>{
-    event.preventDefault();
-    event.target.style.fillOpacity=0;
+    
     dragEnd();
-    setDrag("")
-   
+    
+    event.target.className="tree"
     
     
     console.log('ending drag');
@@ -71,7 +69,7 @@ const Tree = ({
   return (
     <div  ref={tree} className="main" id={hostip} draggable={true} onDragEnd={(event)=>onDragHandlerEnd(event,hostip)} onDragStart={event=>onDragHandlerStart(event,hostip)}>
       {open &&hostip ? (
-        <div   className={`tree${drag}`}> 
+        <div   className={`tree`}> 
           <div className="host_arrow">
           <img 
             ref={arrow}

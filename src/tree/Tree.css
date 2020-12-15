@@ -11,47 +11,32 @@
   cursor: pointer;
 }
 .tree {
-  
   opacity: 1;
-  margin-top: 2%;
+  margin-top: 10px;
 }
-.host_arrow{
-  
+.host_arrow {
 }
-.arrow{
+.arrow {
   width: 13px;
   height: 12px;
 }
 
-.powerBtn{
+.powerBtn {
   width: 18px;
   height: 20px;
   padding-left: 5px;
 }
 
 .Gone {
-  opacity: inherit;
   display: none;
-  
-  
 }
 
-.vm{
-
+.vm {
   padding-top: 10px;
-  
+
   display: flex;
   flex-flow: row;
 }
-.vmList{
+.vmList {
   margin-left: 45%;
 }
-
-.tree:-webkit-drag {
-  
-  opacity: 1;
-}
-
-
-
-

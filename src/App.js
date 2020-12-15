@@ -51,8 +51,10 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-        setWaitServer(null);
+        if (err.response) {
+          setWaitServer(null);
         setError(err.response.data.message);
+        }
       });
   };
   
@@ -62,13 +64,21 @@ function App() {
     axios
       .post("/insertESXI", cred)
       .then((res) => {
-        console.log(res);
+        const tempArr =hosts; 
+        const tempObj = {ip :res.data.ESXI_IP, vms : res.data.vms}
+        
+        tempArr.push(tempObj);
+        setHosts(tempArr)
+
+
         setWaitServer(null);
       })
       .catch((err) => {
         console.log(err);
-        setWaitServer(null);
+        if (err.response) {
+          setWaitServer(null);
         setError(err.response.data.message);
+        }
       });
   };
 
@@ -111,7 +121,9 @@ function App() {
     }})
     .catch(err=>{
       setWaitServer(null)
+     if (err.response.data) {
       setError(err.response.data.message);
+     }
       
     }
       )
@@ -150,7 +162,7 @@ function App() {
                 key = {hosts.indexOf(host)+1}
                 hostip={host.ip}
                 vms={host.vms}
-                dragEnd={()=>setCancelDrag(!cancelDrag)}
+                dragEnd={()=>setCancelDrag(cancelDrag)}
                 removeHost={(hostip) => deleteHost(hostip)}
                 turnOnComputer={(vmid, vmstatus) =>
                   turnOnComputer(vmid, vmstatus)
