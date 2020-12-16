@@ -5,4 +5,13 @@ margin-top: 20%;
 
 .enableFormBtn{
     cursor: pointer;
+    border:  solid #000000 2px;
+    padding: 8px;
+    width: fit-content;
+    border-radius: 5px;
+}
+
+.enableFormBtn:hover{
+    background-color: chartreuse;
+    color: white;
 }

@@ -15,6 +15,7 @@
   margin-top: 10px;
 }
 .host_arrow {
+  padding-left: 8%;
 }
 .arrow {
   width: 13px;
@@ -37,6 +38,8 @@
   display: flex;
   flex-flow: row;
 }
-.vmList {
-  margin-left: 45%;
+
+.vmList{
+  padding-left: 11%;
+ 
 }

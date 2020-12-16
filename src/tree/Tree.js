@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Tree.css";
 import Arrow from "../assets/iconmonstr-arrow.svg";
-
+import powerButtonOffline from "../assets/powerButton-red.svg";
+import powerButtonOnline from "../assets/powerButton-green.svg";
 const Tree = ({
   children,
   removeHost,
@@ -100,15 +101,15 @@ const Tree = ({
                 return (
                   <div className="vm"
                     key={`${hostip}-${vm.vmId}`}
-                    onClick={() => turnOnComputer(vm.vmName,vm.vmId, vm.vmStatus)}
+                    onClick={() => turnOnComputer(hostip,vm.vmName,vm.vmId, vm.vmStatus)}
                   >
                     <button>
                       VM id -{vm.vmId}, VM Name - {vm.vmName}
                     </button>
                     {vm.vmStatus === 0 ? (
-                      <img className={"powerBtn"} src={powerOffBtn} alt="#" />
+                      <img className={"powerBtn"} src={powerButtonOffline} alt="#" />
                     ) : (
-                      <img className={"powerBtn"} src={powerOnBtn}  alt="#"/>
+                      <img className={"powerBtn"} src={powerButtonOnline}  alt="#"/>
                     )}
                     <br />
                   </div>

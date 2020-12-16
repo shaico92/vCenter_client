@@ -35,7 +35,7 @@ const [ipInput, setipInput] = useState("");
   };
 const newHostBtnDiv = <div>
         <button ref={newHostBtn}
-        style={{ position: "absolute", left: "200px" }}
+        
         onClick={(event) => {
           
           

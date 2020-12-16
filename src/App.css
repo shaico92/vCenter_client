@@ -1,5 +1,23 @@
-.App {
-  text-align: center;
+
+.App{
+  display: flex;
+}
+
+.collumn{
+  flex-direction: column;
+  
+  
+ 
+  
+}
+.collumn:nth-child(1){
+  width: 64%;
+}
+.collumn:nth-child(2){
+  margin-top: 5%;
+}
+.collumn:nth-child(2)>*{
+  margin-top: 70%;
 }
 
 .App-logo {
@@ -12,10 +30,7 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-.treeContainer{
-  display: flex;
-  flex-flow: column;
-}
+
 
 
 .Xbtn{

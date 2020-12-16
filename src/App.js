@@ -4,8 +4,9 @@ import "./App.css";
 import powerButtonOffline from "./assets/powerButton-red.svg";
 import powerButtonOnline from "./assets/powerButton-green.svg";
 
-import Xbutton from './assets/Xbtn'
+
 import Tree from "./tree/Tree";
+import TreesContainer from "./TreesContainer/TreesContainer";
 import Bin from './bin/Bin'
 import EnableSSH from './sshEnableForm/sshEnableForm'
 import Spinner from './Spinner/Spinner'
@@ -145,46 +146,36 @@ function App() {
   useEffect(() => {
     getData();
     
-  },[hosts]);
-
+  },[]);
+  
   return (
     <div className="App">
-      <h1>Virtual Machines</h1>
+      <div className="collumn">
+      <h1>Available Hosts</h1>
+      <TreesContainer hosts={hosts} deleteHost={(hostip) => deleteHost(hostip)} turnOnComputer={(hostip,vmName,vmid, vmstatus) =>
+                  turnOnComputer(hostip,vmName, vmid, vmstatus)} setCancelDrag={(cancelDrag)=>setCancelDrag(cancelDrag)} />
       <NewHostForm addHost={data=>addHost(data)}/>
+
+
+      </div>
       
-     <div className="treeContainer">
- 
-     {hosts.length>0
-        ? hosts.map((host) => {
+      
+      
+     
 
-            return (
-              <Tree
-                key = {hosts.indexOf(host)+1}
-                hostip={host.ip}
-                vms={host.vms}
-                dragEnd={()=>setCancelDrag(cancelDrag)}
-                removeHost={(hostip) => deleteHost(hostip)}
-                turnOnComputer={(vmName,vmid, vmstatus) =>
-                  turnOnComputer(host.ip,vmName, vmid, vmstatus)
-                }
-                powerOffBtn={powerButtonOffline}
-                powerOnBtn={powerButtonOnline}
-              ></Tree>
-            );
-          })
-        : null}
-     </div>
-
-      {
+      
         
+        
+        <div className="collumn">
         <Bin removeDrag={cancelDrag} throwTrash={data=>deleteHost({ip:data})}/>
+        <EnableSSH enableSSH={(value)=>enableSSHSelenium(value)}/>
+        </div>
 
 
-
-      }
+      
       <Spinner  load={WaitServer}>Please Wait while operation is performed</Spinner>
       
-<EnableSSH enableSSH={(value)=>enableSSHSelenium(value)}/>
+
 {Error?<ErrorMsg closeError={()=>setError(null)} msg={Error}/>:null}
           </div>
   );
