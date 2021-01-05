@@ -1,0 +1,32 @@
+.good {
+  margin-top: 15px;
+  color: white;
+  width: fit-content;
+  margin-left: 29%;
+  border: solid green 2px;
+  padding: 5px;
+  background-color: lightgreen;
+}
+.xbtn {
+  cursor: pointer;
+  margin-left: 95%;
+  width: fit-content;
+}
+.xbtnHover {
+  margin-left: 95%;
+  width: fit-content;
+  cursor: pointer;
+  fill: black;
+}
+
+.goodHover {
+  margin-top: 15px;
+
+  width: fit-content;
+  margin-left: 29%;
+  border: solid green 2px;
+  padding: 5px;
+
+  color: lightgreen;
+  background-color: white;
+}

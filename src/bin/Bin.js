@@ -6,6 +6,7 @@ const Bin =({throwTrash,removeDrag})=>{
     const [aboutToThrow,setAboutToThrow] = useState(null);
     useEffect(()=>{
             setAboutToThrow(null)
+            console.log(window.location.hostname);
     },[removeDrag])
 
     

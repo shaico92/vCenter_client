@@ -12,6 +12,8 @@ import EnableSSH from './sshEnableForm/sshEnableForm'
 import Spinner from './Spinner/Spinner'
 import NewHostForm from './NewHost/NewHost'
 import ErrorMsg from './ErrorMsg/ErrorMsg'
+import GoodMsg from './GoodMsg/GoodMsg'
+
 import axios from "./api/axios";
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
   const [cancelDrag,setCancelDrag]=useState(null);
   const [WaitServer,setWaitServer]=useState(null);
   const [Error, setError] = useState(null);
+  const [GoodMesg, setGoodMesg] = useState(null);
   // const newHostBtn = useRef();
   const getData = () => {
     setWaitServer(true);
@@ -118,11 +121,12 @@ function App() {
     .post(`/checkSSH/${value.ip}`,obj)
     .then(res=>{if (res) {
       console.log(res.data);
+      setGoodMesg(res.data);
       setWaitServer(null)
     }})
     .catch(err=>{
       setWaitServer(null)
-     if (err.response.data) {
+     if (err.response) {
       setError(err.response.data.message);
      }
       
@@ -177,6 +181,7 @@ function App() {
       
 
 {Error?<ErrorMsg closeError={()=>setError(null)} msg={Error}/>:null}
+{GoodMesg?<GoodMsg closeError={()=>setGoodMesg(null)} msg={GoodMesg}/>:null}
           </div>
   );
 }
