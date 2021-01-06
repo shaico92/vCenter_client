@@ -5,9 +5,16 @@ import Xbutton from '../assets/Xbtn'
 const Error = ({msg,closeError})=>{
 
 const xbtnDiv = useRef()
-
+const msgboxErr = useRef();
 useEffect(() => {
-    console.log(xbtnDiv.current);
+    setTimeout(() => {
+        msgboxErr.current.style.opacity=0;
+    }, 3000);
+    setTimeout(() => {
+        
+        closeError();
+    }, 3300);
+    
 }, [msg,]);
 
 const hoverInHandler=()=>{
@@ -27,7 +34,7 @@ const hoverOutHandler=()=>{
 
 
     return (
-        <div  onMouseOver={()=>hoverInHandler()} onMouseOut={()=>hoverOutHandler()} className="error">
+        <div ref={msgboxErr}  onMouseOver={()=>hoverInHandler()} onMouseOut={()=>hoverOutHandler()} className="error">
             <div onClick={()=>closeError()}  ref={xbtnDiv}  className="xbtn">
             <Xbutton  fill="white"/>
             </div>

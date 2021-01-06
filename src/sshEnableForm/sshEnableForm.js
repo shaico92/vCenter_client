@@ -50,7 +50,15 @@ const form = <div ref={formSSH} className="sshForm">
             
           ></input></div>
           <div className="sshFormChild"> <button className="enableFormBtn"
-            onClick={()=>enableSSH({ip: IP,username: Username,pass : Password})}
+            onClick={()=>{
+
+
+              setopen(null);
+              enableSSH({ip: IP,username: Username,pass : Password})
+              setUsername(null)
+              setPassword(null)
+              setIP(null)
+            }}
           >
             EnableSSH
           </button></div>

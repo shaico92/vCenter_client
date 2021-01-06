@@ -8,6 +8,13 @@
   padding-bottom: 12px;
   height: fit-content;
   background-color: lightgreen;
+
+  animation: fade-out 4s;
+  animation-iteration-count: 1;
+}
+
+.fadeOut {
+  animation: fade-out ease 3s;
 }
 .xbtn {
   cursor: pointer;
@@ -31,5 +38,11 @@
   padding-bottom: 12px;
   height: fit-content;
   color: lightgreen;
-  background-color: white;
+  background-color: rgb(248, 219, 219);
+}
+
+@keyframes fade-out {
+  80% {
+    opacity: 0;
+  }
 }

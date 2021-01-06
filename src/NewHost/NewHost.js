@@ -79,12 +79,17 @@ const newHostFormDiv=<div>{newHost ? (
       {ipInput.length<=0||username.length<=0||password.length<=0?<button
         disabled>add Host
       </button>:<button
-        onClick={() =>
+        onClick={() =>{
+
+          setNewHost(null);
+          newHostBtn.current.className=""
           addHost({
             ESXI_IP: ipInput,
             ESXI_USER: username,
             ESXI_PASSWORD: password,
           })
+        }
+          
         }
       >
         add Host
