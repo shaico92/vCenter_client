@@ -1,38 +1,33 @@
-.error{margin-top: 15px;
-    color: white;
-    width: fit-content;
-    margin-left: 29%;
-    border: solid red 2px;
-    padding: 5px;
-    background-color: salmon;
-    
+.error {
+  margin-top: 15px;
+  color: white;
+  width: fit-content;
+  margin-left: 4%;
+  border: solid red 2px;
+  padding: 5px;
+  height: fit-content;
+  background-color: salmon;
 }
-.xbtn{
-    cursor: pointer;
-    margin-left: 95%;
-    width: fit-content;
+.xbtn {
+  cursor: pointer;
+  margin-left: 95%;
+  width: fit-content;
 }
-.xbtnHover{
-    margin-left: 95%;
-    width: fit-content;
-    cursor: pointer;
-    fill: black;
+.xbtnHover {
+  margin-left: 95%;
+  width: fit-content;
+  cursor: pointer;
+  fill: black;
 }
 
-.errorHover{
+.errorHover {
+  margin-top: 15px;
 
-    margin-top: 15px;
-    
-    width: fit-content;
-    margin-left: 29%;
-    border: solid red 2px;
-    padding: 5px;
+  width: fit-content;
+  margin-left: 29%;
+  border: solid red 2px;
+  padding: 5px;
 
-
-
-
-
-
-    color: salmon;
-    background-color: white;
+  color: salmon;
+  background-color: white;
 }

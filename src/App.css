@@ -1,23 +1,18 @@
-
-.App{
+.App {
   display: flex;
 }
 
-.collumn{
+.collumn {
   flex-direction: column;
-  
-  
- 
-  
 }
-.collumn:nth-child(1){
+.collumn:nth-child(1) {
   width: 64%;
 }
-.collumn:nth-child(2){
+.collumn:nth-child(2) {
   margin-top: 5%;
 }
-.collumn:nth-child(2)>*{
-  margin-top: 70%;
+.collumn:nth-child(2) > * {
+  /* margin-top: 70%; */
 }
 
 .App-logo {
@@ -31,10 +26,7 @@
   }
 }
 
-
-
-.Xbtn{
-  
+.Xbtn {
   padding-left: 94%;
   cursor: pointer;
 }
@@ -72,5 +64,4 @@ html {
   to {
     opacity: 0;
   }
-  
 }

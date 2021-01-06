@@ -2,9 +2,11 @@
   margin-top: 15px;
   color: white;
   width: fit-content;
-  margin-left: 29%;
+  margin-left: 4%;
   border: solid green 2px;
-  padding: 5px;
+  padding-right: 14px;
+  padding-bottom: 12px;
+  height: fit-content;
   background-color: lightgreen;
 }
 .xbtn {
@@ -23,10 +25,11 @@
   margin-top: 15px;
 
   width: fit-content;
-  margin-left: 29%;
+  margin-left: 4%;
   border: solid green 2px;
-  padding: 5px;
-
+  padding-right: 14px;
+  padding-bottom: 12px;
+  height: fit-content;
   color: lightgreen;
   background-color: white;
 }
