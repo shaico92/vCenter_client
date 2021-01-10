@@ -13,7 +13,7 @@ useEffect(() => {
     setTimeout(() => {
         
         closeError();
-    }, 3300);
+    }, 6500);
 }, [msg]);
 
 const hoverInHandler=()=>{
